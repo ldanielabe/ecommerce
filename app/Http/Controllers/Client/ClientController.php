@@ -33,12 +33,14 @@ class ClientController extends Controller
 
     public function register(Request $request,$id){
        
+        $preguntas=DB::select('SELECT * FROM question_clients AS prg WHERE prg.id_type='.$id); 
+        $id_client=DB::select('SELECT MAX(id) as max FROM clients'); 
         $array=$request->request->all();
         $client = new Client;
         $client->id_type=$id;
+        $client->name=$id;
         $client->save();
-        $preguntas=DB::select('SELECT * FROM question_clients AS prg WHERE prg.id_type='.$id); 
-        $id_client=DB::select('SELECT MAX(id) as max FROM clients'); 
+        
        
      
         for($i=2;$i<sizeof($request->request);$i++){
@@ -51,7 +53,7 @@ class ClientController extends Controller
         }
 
       
-         toastr()->success('se registro correctamente.');
+         toastr()->success('Se registro correctamente.');
         
       
       return back();
@@ -144,8 +146,16 @@ class ClientController extends Controller
     }
 
     public function list(){
-        $client=DB::select('SELECT * FROM clients AS c, answers_clients AS a, question_clients AS q WHERE c.id=a.id_client AND q.id=a.id_question');
-        return $client;
+        $client=DB::select('SELECT * FROM clients AS c, answers_clients AS a WHERE a.id_client=c.id');
+        $id_client=DB::select('SELECT MAX(id) as max FROM clients')[0]->max; 
+
+        $data = [
+            "status" => "200",
+            "client" => $client,
+            "id_client"=>$id_client
+        ];
+        
+        return  response()->json($data);
     }
 
     public function type_list(){

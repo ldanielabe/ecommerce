@@ -172,7 +172,7 @@ function allQuestion(id, bol) {
         url: "/client/question_list/" + id + "/" + bol,
         data: {},
         success: function(data) {
-            console.log(data);
+
             document.getElementById('question_select').innerHTML = "";
             var html = "";
             for (indice = 0; indice < data.preguntas.length; indice++) {

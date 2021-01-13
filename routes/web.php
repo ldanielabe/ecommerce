@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-//Auth::routes(['register' => false]);
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-
+Auth::routes(['register' => false]);
 
 Route::group( ['namespace' => 'Vendor', 'prefix' => 'vendor', 'as' => 'vendor.', 'middleware' => []], function () {
         
@@ -28,7 +25,7 @@ Route::group( ['namespace' => 'Vendor', 'prefix' => 'vendor', 'as' => 'vendor.',
     Route::get('list', ['uses' =>'VendorController@list'])->name('list');
     Route::post('edit/{id}', ['uses' =>'VendorController@edit'])->name('edit');
     Route::delete('delete/{id}', ['uses' =>'VendorController@delete'])->name('delete');
-    Route::post('assign/{id}/{client}', ['uses' =>'VendorController@assign'])->name('assign');    
+    Route::get('assign/{id}/{client}', ['uses' =>'VendorController@assign'])->name('assign');    
 });
 
 

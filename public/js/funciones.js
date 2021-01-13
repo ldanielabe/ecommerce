@@ -10,7 +10,7 @@ $(document).ready(function() {
             var table = $('#vendor_table').DataTable();
             $.each(data, function(i, dat) {
 
-                if (dat.id != 0) {
+                if (dat.id != 1) {
                     table.row.add([dat.id, dat.identification, dat.name, dat.address, dat.phone, dat.email])
                         .draw()
                         .node().id = dat.id;
@@ -146,8 +146,25 @@ $(document).ready(function() {
         $("#modal-title-question").text("Asignar clientes - Vendedor/a " + data[2]);
         id = data[0];
 
-        $('#btnRegisterAssign').attr('onclick', 'btnRegisteAssign()');
+        $('#btnRegisterAssign').on('click', function() {
 
+            console.log(data);
+            $select = $('#client_select');
+
+            $select.children(':selected').each((idx, el) => {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/vendor/assign/" + id + "/" + el.value,
+                    data: {},
+                    success: function(data) {
+                        if (data.status == 200) {
+                            toastr.success('Datos guardados.');
+                        }
+                    }
+                });
+            });
+        });
 
         $.ajax({
             type: "GET",
@@ -155,42 +172,32 @@ $(document).ready(function() {
             data: {},
             success: function(data) {
 
-                console.log(data);
-                document.getElementById('client_select').innerHTML = 'No existen clientes.';
-
+                document.getElementById('client_select').innerHTML = "";
                 var html = "";
-                for (indice = 0; indice < data.length; indice++) {
-                    console.log("id_type" + data[indice].id_type + " id:::" + id);
+                num = data.id_client;
+                k = 1;
 
-                    html += '<option value="' + data[indice].id + '" hidden>' + data[indice].name + '</option>';
+                for (i = 0; i < data.client.length; i++) {
 
+                    if (data.client[i].id_client == k) {
+                        html += '<option value="' + data.client[i].id_client + '" >' + data.client[i + 1].answer + '</option>';
+                        k++;
+                    }
                 }
-
 
                 if (html == "") {
-                    document.getElementById('form_register_client').innerHTML = '<div class="col-md-6 offset-md-4">No existen clientes.</div>';
+                    document.getElementById('client_select').innerHTML = '<option value="" hidden> No existen clientes.</option>';
                 }
 
-                $('#form_register_client').append(html);
-
-
+                $('#client_select').append(html);
+                $('.selectpicker').selectpicker('refresh');
 
             }
-        }); //fin ajax
+        });
+    }); //fin ajax
 
 
 
-
-
-
-
-
-
-
-
-
-
-    });
     //fin 
 });
 

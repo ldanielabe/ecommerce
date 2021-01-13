@@ -11,7 +11,6 @@ $(document).ready(function() {
         id = $("#client_select option:selected").val();
         allQuestionClient(id);
         $('#formRegisterClients').attr('action', '/client/register/' + id);
-        console.log("SeleCT:::" + id);
     });
 
 
@@ -38,7 +37,7 @@ function allQuestionClient(id) {
             document.getElementById('form_register_client').innerHTML = "";
             var html = "";
             for (indice = 0; indice < data.length; indice++) {
-                console.log("id_type" + data[indice].id_type + " id:::" + id);
+
                 if (id == data[indice].id_type) {
                     html += '<label for="' + data[indice].question + '" class="col-md-4 col-form-label text-md-right title_name_label"> ' + data[indice].question + ' </label>' +
                         '<div class="col-md-6">' +

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
+use App\Vendor_client;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -62,5 +63,16 @@ class VendorController extends Controller
        $vendor= User::find($id);
        $vendor->delete();
        return 200;
+    }
+
+    public function assign($id,$client){
+        $assign = new Vendor_client;
+        $assign->id_user=$id;
+        $assign->id_client=$client;
+        $assign->save();
+        $data = [
+            "status" => "200",
+        ];
+        return response()->json($data);
     }
 }

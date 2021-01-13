@@ -193,12 +193,11 @@
                     </div>
                     <hr>
                     
-                    
+                 
 
-                    <select class="selectpicker client_select" multiple >
-                    <option>Mustard</option>
-                    <option>Ketchup</option>
-                    <option>Barbecue</option>
+                    <select id="client_select" name="client_select" class="selectpicker" multiple >
+                   
+
                     </select>
 
 
